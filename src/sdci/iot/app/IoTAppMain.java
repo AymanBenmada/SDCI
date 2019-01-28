@@ -49,7 +49,7 @@ public class IoTAppMain {
 	public static void create_route_GWF2_GWI() throws Exception {
 		RestClient rest = new RestClient("http://127.0.0.1:8080/stats/flowentry/add");
 		rest.addHeader("Accept", "application/json");
-		rest.setBodyString("{'dpid':1,'cookie':3,'table_id':0,'idle_timeout':0,'hard_timeout':0,'priority':11111,'flags':1,'match':{'in_port':3},'actions':[{'type':'OUTPUT','port':6}]}");
+		rest.setBodyString("{'dpid':1,'cookie':3,'table_id':0,'idle_timeout':0,'hard_timeout':0,'priority':11111,'flags':1,'match':{'in_port':3},'actions':[{'type': 'SET_NW_DST', 'nw_dst': '172.17.0.7'}, {'type': 'SET_DL_DST', 'dl_dst': '0e:49:90:55:ce:d5'}, {'type':'OUTPUT','port':6}]}");
 		rest.execute(RequestMethod.POST);
 		if (rest.getResponseCode() == 200) {
 			System.out.println(true);
@@ -63,7 +63,7 @@ public class IoTAppMain {
 	public static void create_route_GWF3_GWI() throws Exception {
 		RestClient rest = new RestClient("http://127.0.0.1:8080/stats/flowentry/add");
 		rest.addHeader("Accept", "application/json");
-		rest.setBodyString("{'dpid':1,'cookie':3,'table_id':0,'idle_timeout':0,'hard_timeout':0,'priority':11111,'flags':1,'match':{'in_port':4},'actions':[{'type':'OUTPUT','port':6}]}");
+		rest.setBodyString("{'dpid':1,'cookie':3,'table_id':0,'idle_timeout':0,'hard_timeout':0,'priority':11111,'flags':1,'match':{'in_port':4},'actions':[{'type': 'SET_NW_DST', 'nw_dst': '172.17.0.7'}, {'type': 'SET_DL_DST', 'dl_dst': '0e:49:90:55:ce:d5'}, {'type':'OUTPUT','port':6}]}");
 		rest.execute(RequestMethod.POST);
 		if (rest.getResponseCode() == 200) {
 			System.out.println(true);
@@ -77,7 +77,7 @@ public class IoTAppMain {
 	public static void transparent_redirect() throws Exception {
 		RestClient rest = new RestClient("http://127.0.0.1:8080/stats/flowentry/add");
 		rest.addHeader("Accept", "application/json");
-		rest.setBodyString("{'dpid':1,'cookie':3,'table_id':0,'idle_timeout':0,'hard_timeout':0,'priority':11111,'flags':1,'match':{'in_port':6},'actions':[{'type':'SET_NW_SRC', 'nw_src':'172.27.0.2'}]}");
+		rest.setBodyString("{'dpid':1,'cookie':3,'table_id':0,'idle_timeout':0,'hard_timeout':0,'priority':11111,'flags':1,'match':{'in_port':6},'actions':[{'type':'SET_NW_SRC', 'nw_src':'172.17.0.2'}]}");
 		rest.execute(RequestMethod.POST);
 		if (rest.getResponseCode() == 200) {
 			System.out.println(true);
@@ -112,10 +112,15 @@ public class IoTAppMain {
 	}
 
 	public static void main(String[] args) throws Exception {
+		//create_vnf("vnf", "172.17.0.7");
+		delete_all_rules();
 		create_route_GWF2_GWI();
 		create_route_GWF3_GWI();
 		transparent_redirect();
 		get_all_rules();
+		
+		//create_vnf("vnf", "172.17.0.7");
+		
 	}
 
 }
